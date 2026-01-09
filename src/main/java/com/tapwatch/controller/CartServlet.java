@@ -45,24 +45,32 @@ public class CartServlet extends HttpServlet {
         }
 
         if ("add".equals(action)) {
-            int movieId = Integer.parseInt(req.getParameter("movieId"));
-            int quantity = Integer.parseInt(req.getParameter("quantity"));
 
-            // Get movie from DAO
+            int movieId = Integer.parseInt(req.getParameter("movieId"));
+            int quantity;
+
+            try {
+                quantity = Integer.parseInt(req.getParameter("quantity"));
+                if (quantity < 1) quantity = 1;
+            } catch (NumberFormatException e) {
+                quantity = 1;
+            }
+
             MovieDAO dao = new MovieDAO();
-            List<Movie> allMovies = dao.getAllMovies();
-            Movie movie = allMovies.stream()
-                    .filter(m -> m.getId() == movieId)
-                    .findFirst()
-                    .orElse(null);
+            Movie movie = dao.getMovieById(movieId);
 
             if (movie != null) {
                 cart.addItem(movie, quantity);
+
+                // store success message in session
+                session.setAttribute("message",
+                        movie.getTitle() + " added to cart!");
             }
 
-            // Redirect back to movies or cart
-            resp.sendRedirect("cart");
-        } else if ("remove".equals(action)) {
+            // redirect BACK to movie list
+            resp.sendRedirect("movies");
+        }
+        else if ("remove".equals(action)) {
             int movieId = Integer.parseInt(req.getParameter("movieId"));
             cart.removeItem(movieId);
             resp.sendRedirect("cart");

@@ -23,4 +23,13 @@ public class MovieDAO {
 
         return list;
     }
+
+    public Movie getMovieById(int id) {
+        for (Movie movie : getAllMovies()) {
+            if (movie.getId() == id) {
+                return movie;
+            }
+        }
+        return null;
+    }
 }

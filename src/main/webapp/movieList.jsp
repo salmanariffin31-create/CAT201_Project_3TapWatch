@@ -20,6 +20,15 @@
         .add-to-cart input { width: 60px; padding: 5px; }
         .add-to-cart button { padding: 8px 15px; background-color: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; }
         .add-to-cart button:hover { background-color: #229954; }
+
+        .message-box {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -35,6 +44,19 @@
         <a href="cart">🛒 Cart (<%= itemCount %>)</a>
     </div>
 </div>
+
+
+<%
+    String message = (String) session.getAttribute("message");
+    if (message != null) {
+%>
+    <div class="message-box">
+        <%= message %>
+    </div>
+<%
+        session.removeAttribute("message"); // show once only
+    }
+%>
 
 <div class="movie-grid">
     <%
