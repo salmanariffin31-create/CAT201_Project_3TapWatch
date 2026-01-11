@@ -17,8 +17,15 @@ public class CartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Get or create cart from session
         HttpSession session = req.getSession();
+
+        // Access Control: Redirect to login if not logged in
+        if (session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp?error=loginRequired");
+            return;
+        }
+
+        // Get or create cart from session
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart == null) {
             cart = new Cart();
@@ -34,8 +41,15 @@ public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String action = req.getParameter("action");
         HttpSession session = req.getSession();
+
+        // Access Control: Redirect to login if not logged in
+        if (session.getAttribute("username") == null) {
+            resp.sendRedirect("login.jsp?error=loginRequired");
+            return;
+        }
+
+        String action = req.getParameter("action");
 
         // Get or create cart
         Cart cart = (Cart) session.getAttribute("cart");
@@ -51,7 +65,8 @@ public class CartServlet extends HttpServlet {
 
             try {
                 quantity = Integer.parseInt(req.getParameter("quantity"));
-                if (quantity < 1) quantity = 1;
+                if (quantity < 1)
+                    quantity = 1;
             } catch (NumberFormatException e) {
                 quantity = 1;
             }
@@ -69,8 +84,7 @@ public class CartServlet extends HttpServlet {
 
             // redirect BACK to movie list
             resp.sendRedirect("movies");
-        }
-        else if ("remove".equals(action)) {
+        } else if ("remove".equals(action)) {
             int movieId = Integer.parseInt(req.getParameter("movieId"));
             cart.removeItem(movieId);
             resp.sendRedirect("cart");

@@ -1,0 +1,305 @@
+:root {
+    --primary: #27ae60;
+    --primary-dark: #229954;
+    --info: #3498db;
+    --bg: #f6f7fb;
+    --text: #111827;
+    --muted: #6b7280;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 900;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.brand span {
+    font-size: 26px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 12px;
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    background: #f0f2f6;
+}
+
+.cart-badge {
+    background: #111827;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    margin-left: 6px;
+}
+
+/* Page container */
+.container {
+    width: min(1100px, 92%);
+    margin: 26px auto 60px;
+}
+
+/* Message */
+.alert {
+    background: #d4edda;
+    border: 1px solid rgba(39, 174, 96, 0.25);
+    color: #155724;
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-weight: 800;
+    margin: 12px 0 18px;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.05);
+}
+
+/* Grid cards */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+.poster {
+    width: 100%;
+    height: 340px;
+    /* Increased height for better poster view */
+    object-fit: cover;
+    background: #eaeaea;
+}
+
+.card-body {
+    padding: 14px 14px 16px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 900;
+    margin: 0 0 6px;
+}
+
+.meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.genre-pill {
+    background: rgba(52, 152, 219, 0.12);
+    border: 1px solid rgba(52, 152, 219, 0.20);
+    color: #1f5f91;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+.desc {
+    color: var(--muted);
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 1000;
+    color: #e74c3c;
+    margin: 0;
+}
+
+.form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.qty {
+    width: 64px;
+    padding: 10px 10px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    outline: none;
+    font-weight: 800;
+    text-align: center;
+}
+
+.qty:focus {
+    border-color: var(--info);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+.btn {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: 900;
+    transition: 0.15s ease;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.btn-info {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+/* Update button - neutral/secondary style but distinct */
+.btn-info:hover {
+    background: #d1d5db;
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: #ffe5e5;
+    color: #d63031;
+}
+
+/* Remove button - soft red */
+.btn-danger:hover {
+    background: #ffcccc;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+
+/* Login Form Specific */
+.login-card {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.15);
+}
+
+.btn-block {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.error-msg {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
