@@ -11,6 +11,14 @@
                     <link rel="stylesheet" href="css/style.css">
                     <style>
                         /* Cart Specific overwrites or additions if needed */
+                        .badge-rent {
+                            background-color: #f39c12 !important;
+                        }
+
+                        .badge-buy {
+                            background-color: #3498db !important;
+                        }
+
                         .container {
                             display: grid;
                             grid-template-columns: 1fr 340px;
@@ -148,16 +156,20 @@
                                 <a href="movies" class="brand"><span>🎬</span> 3TapWatch</a>
                                 <div class="nav-links">
                                     <a href="movies">Home</a>
+                                    <a href="library">My Library</a>
                                     <a href="cart">🛒 Cart <span class="cart-badge">
                                             <%= itemCount %>
                                         </span></a>
                                     <% String username=(String) session.getAttribute("username"); if (username !=null) {
                                         %>
                                         <span style="font-weight:700; color:var(--primary);">Hi, <%= username %></span>
-                                        <a href="LogoutServlet">Logout</a>
-                                        <% } else { %>
-                                            <a href="login.jsp" class="btn btn-primary">Login</a>
+                                        <% if ("admin".equals(username)) { %>
+                                            <a href="admin" style="color: var(--danger);">Admin Panel</a>
                                             <% } %>
+                                                <a href="LogoutServlet">Logout</a>
+                                                <% } else { %>
+                                                    <a href="login.jsp" class="btn btn-primary">Login</a>
+                                                    <% } %>
                                 </div>
                             </div>
                         </div>
@@ -181,6 +193,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Movie</th>
+                                                    <th>Type</th>
                                                     <th>Price (RM)</th>
                                                     <th>Quantity</th>
                                                     <th>Subtotal (RM)</th>
@@ -188,21 +201,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <% for (CartItem item : items) { %>
+                                                <% for (CartItem item : items) { String itemKey=item.getMovie().getId()
+                                                    + "-" + item.getType(); double unitPrice="rent"
+                                                    .equals(item.getType()) ? item.getMovie().getRentPrice() :
+                                                    item.getMovie().getPrice(); String badgeClass="rent"
+                                                    .equals(item.getType()) ? "badge-rent" : "badge-buy" ; %>
                                                     <tr>
                                                         <td class="title">
                                                             <%= item.getMovie().getTitle() %>
                                                         </td>
+                                                        <td>
+                                                            <span class="badge <%= badgeClass %>"
+                                                                style="color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; text-transform: uppercase;">
+                                                                <%= item.getType() %>
+                                                            </span>
+                                                        </td>
                                                         <td class="price">
-                                                            <%= String.format("%.2f", item.getMovie().getPrice()) %>
+                                                            <%= String.format("%.2f", unitPrice) %>
                                                         </td>
                                                         <td>
                                                             <form method="POST" action="cart" class="qty-row">
                                                                 <input type="hidden" name="action" value="update">
-                                                                <input type="hidden" name="movieId"
-                                                                    value="<%= item.getMovie().getId() %>">
-                                                                <input type="number" name="quantity"
-                                                                    value="<%= item.getQuantity() %>" min="1" max="10">
+                                                                <input type="hidden" name="itemKey"
+                                                                    value="<%= itemKey %>">
+                                                                <input type="number" name="quantity" class="qty"
+                                                                    value="<%= item.getQuantity() %>" min="1" max="10"
+                                                                    style="text-align: center; border-radius: 30px; border: 1px solid var(--border); padding: 8px; width: 80px;">
                                                                 <button type="submit"
                                                                     class="btn btn-info">Update</button>
                                                             </form>
@@ -213,8 +237,8 @@
                                                         <td>
                                                             <form method="POST" action="cart" style="margin:0;">
                                                                 <input type="hidden" name="action" value="remove">
-                                                                <input type="hidden" name="movieId"
-                                                                    value="<%= item.getMovie().getId() %>">
+                                                                <input type="hidden" name="itemKey"
+                                                                    value="<%= itemKey %>">
                                                                 <button type="submit"
                                                                     class="btn btn-danger">Remove</button>
                                                             </form>

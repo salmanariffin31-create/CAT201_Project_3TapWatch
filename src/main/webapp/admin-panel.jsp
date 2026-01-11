@@ -175,6 +175,60 @@
                             </tbody>
                         </table>
 
+                        <div class="header-flex" style="margin-top: 40px;">
+                            <h2>Recent Orders</h2>
+                            <span class="badge">${orders != null ? orders.size() : 0} Orders</span>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>User</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Total (RM)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:choose>
+                                    <c:when test="${not empty orders}">
+                                        <c:forEach var="order" items="${orders}">
+                                            <tr>
+                                                <td style="font-family: monospace;">${order.orderId}</td>
+                                                <td><strong>${order.username}</strong></td>
+                                                <td>${order.orderDate}</td>
+                                                <td>
+                                                    <ul
+                                                        style="margin: 0; padding-left: 15px; font-size: 13px; list-style-type: circle;">
+                                                        <c:forEach var="item" items="${order.items}">
+                                                            <li>
+                                                                ${item.quantity}x ${item.movie.title}
+                                                                <span
+                                                                    style="color: var(--muted); text-transform: uppercase; font-size: 11px;">
+                                                                    (${item.type})
+                                                                </span>
+                                                            </li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </td>
+                                                <td style="color: #27ae60; font-weight: 900;">RM ${String.format("%.2f",
+                                                    order.total)}</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <tr>
+                                            <td colspan="5"
+                                                style="text-align: center; color: var(--muted); padding: 30px;">
+                                                No orders placed yet.
+                                            </td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </tbody>
+                        </table>
+
                     </div>
 
                 </body>

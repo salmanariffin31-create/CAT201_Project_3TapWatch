@@ -33,6 +33,12 @@ public class AdminServlet extends HttpServlet {
             // List all movies
             List<Movie> movies = movieDAO.getAllMovies();
             req.setAttribute("movies", movies);
+
+            // List all orders
+            com.tapwatch.dao.OrderDAO orderDAO = new com.tapwatch.dao.OrderDAO();
+            List<com.tapwatch.model.Order> orders = orderDAO.getAllOrders();
+            req.setAttribute("orders", orders);
+
             req.getRequestDispatcher("admin-panel.jsp").forward(req, resp);
         }
     }

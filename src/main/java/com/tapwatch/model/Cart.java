@@ -3,31 +3,36 @@ package com.tapwatch.model;
 import java.util.*;
 
 public class Cart {
-    private Map<Integer, CartItem> items; // key = movieId
+    private Map<String, CartItem> items; // key = movieId + "-" + type
 
     public Cart() {
         this.items = new HashMap<>();
     }
 
-    public void addItem(Movie movie, int quantity) {
-        if (items.containsKey(movie.getId())) {
-            CartItem existing = items.get(movie.getId());
+    public void addItem(Movie movie, int quantity, String type) {
+        String key = movie.getId() + "-" + type;
+        if (items.containsKey(key)) {
+            CartItem existing = items.get(key);
             existing.setQuantity(existing.getQuantity() + quantity);
         } else {
-            items.put(movie.getId(), new CartItem(movie, quantity));
+            items.put(key, new CartItem(movie, quantity, type));
         }
     }
 
-    public void removeItem(int movieId) {
-        items.remove(movieId);
+    public void removeItem(String itemKey) {
+        items.remove(itemKey);
     }
 
-    public void updateQuantity(int movieId, int quantity) {
+    public void updateQuantity(String itemKey, int quantity) {
         if (quantity <= 0) {
-            removeItem(movieId);
-        } else if (items.containsKey(movieId)) {
-            items.get(movieId).setQuantity(quantity);
+            removeItem(itemKey);
+        } else if (items.containsKey(itemKey)) {
+            items.get(itemKey).setQuantity(quantity);
         }
+    }
+
+    public Map<String, CartItem> getItemsMap() {
+        return items;
     }
 
     public List<CartItem> getItems() {

@@ -30,7 +30,17 @@ public class CheckoutServlet extends HttpServlet {
         double total = cart.getTotal();
         String orderDate = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String username = (String) session.getAttribute("username");
 
+        // Save Order
+        String orderId = "ORD-" + System.currentTimeMillis();
+        com.tapwatch.model.Order order = new com.tapwatch.model.Order(orderId, username, orderDate, total,
+                cart.getItems());
+
+        com.tapwatch.dao.OrderDAO orderDAO = new com.tapwatch.dao.OrderDAO();
+        orderDAO.addOrder(order);
+
+        req.setAttribute("orderId", orderId);
         req.setAttribute("orderDate", orderDate);
         req.setAttribute("orderTotal", total);
         req.setAttribute("itemCount", cart.getItemCount());

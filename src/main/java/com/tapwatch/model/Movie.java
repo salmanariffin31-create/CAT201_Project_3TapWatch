@@ -11,12 +11,13 @@ public class Movie {
     private String posterUrl;
     private String trailerUrl;
     private double price;
+    private double rentPrice;
 
     public Movie() {
     }
 
     public Movie(int id, String title, String genre, int year, int duration, double rating, String description,
-            String posterUrl, String trailerUrl, double price) {
+            String posterUrl, String trailerUrl, double price, double rentPrice) {
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -27,6 +28,7 @@ public class Movie {
         this.posterUrl = posterUrl;
         this.trailerUrl = trailerUrl;
         this.price = price;
+        this.rentPrice = rentPrice;
     }
 
     // Getters and Setters
@@ -112,5 +114,13 @@ public class Movie {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getRentPrice() {
+        return rentPrice;
+    }
+
+    public void setRentPrice(double rentPrice) {
+        this.rentPrice = rentPrice;
     }
 }

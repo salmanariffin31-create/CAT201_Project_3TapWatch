@@ -18,6 +18,7 @@
                             <a href="movies" class="brand"><span>🎬</span> 3TapWatch</a>
                             <div class="nav-links">
                                 <a href="movies">Home</a>
+                                <a href="library">My Library</a>
                                 <% Cart cart=(Cart) session.getAttribute("cart"); int itemCount=(cart !=null) ?
                                     cart.getItemCount() : 0; %>
                                     <a href="cart">🛒 Cart <span class="cart-badge">
@@ -47,6 +48,36 @@
                             </div>
                             <% session.removeAttribute("message"); } %>
 
+                                <!-- Search and Filter Section -->
+                                <div style="margin-bottom: 30px;">
+                                    <form action="movies" method="get"
+                                        style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                                        <input type="text" name="search" placeholder="Search by title..."
+                                            style="flex: 1; padding: 14px 20px; border: none; border-radius: 50px; font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); outline: none;">
+
+                                        <select name="genre"
+                                            style="padding: 14px 20px; border: none; border-radius: 50px; font-size: 16px; min-width: 160px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; outline: none; background-color: white;">
+                                            <option value="">All Genres</option>
+                                            <option value="Action">Action</option>
+                                            <option value="Sci-Fi">Sci-Fi</option>
+                                            <option value="Drama">Drama</option>
+                                            <option value="Comedy">Comedy</option>
+                                            <option value="Horror">Horror</option>
+                                            <option value="Romance">Romance</option>
+                                            <option value="Adventure">Adventure</option>
+                                            <option value="Crime">Crime</option>
+                                            <option value="Animation">Animation</option>
+                                            <option value="Mystery">Mystery</option>
+                                            <option value="Biography">Biography</option>
+                                        </select>
+
+                                        <button type="submit" class="btn btn-primary"
+                                            style="padding: 14px 32px; border-radius: 50px; font-weight: 700; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);">Search</button>
+                                        <a href="movies" class="btn btn-secondary"
+                                            style="padding: 14px 24px; text-decoration: none; border-radius: 50px; background: #e0e6ed; color: #555;">Clear</a>
+                                    </form>
+                                </div>
+
                                 <div class="grid">
                                     <% List<Movie> movies = (List<Movie>) request.getAttribute("movies");
                                             for (Movie m : movies) {
@@ -75,17 +106,11 @@
                                                     </p>
 
                                                     <div class="bottom">
-                                                        <p class="price">RM <%= String.format("%.2f", m.getPrice()) %>
-                                                        </p>
 
-                                                        <form method="POST" action="cart" class="form">
-                                                            <input type="hidden" name="action" value="add">
-                                                            <input type="hidden" name="movieId"
-                                                                value="<%= m.getId() %>">
-                                                            <input class="qty" type="number" name="quantity" value="1"
-                                                                min="1" max="10">
-                                                            <button class="btn btn-primary" type="submit">Add</button>
-                                                        </form>
+                                                        <a href="details?id=<%= m.getId() %>" class="btn btn-primary"
+                                                            style="width: 100%; text-align: center; display: block; text-decoration: none; padding: 10px 0;">
+                                                            View Details
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

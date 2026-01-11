@@ -61,6 +61,10 @@ public class CartServlet extends HttpServlet {
         if ("add".equals(action)) {
 
             int movieId = Integer.parseInt(req.getParameter("movieId"));
+            String type = req.getParameter("type");
+            if (type == null || type.isEmpty()) {
+                type = "buy";
+            }
             int quantity;
 
             try {
@@ -75,23 +79,28 @@ public class CartServlet extends HttpServlet {
             Movie movie = dao.getMovieById(movieId);
 
             if (movie != null) {
-                cart.addItem(movie, quantity);
+                cart.addItem(movie, quantity, type);
 
                 // store success message in session
+                String actionText = "rent".equals(type) ? "rented" : "added to cart";
                 session.setAttribute("message",
-                        movie.getTitle() + " added to cart!");
+                        movie.getTitle() + " " + actionText + "!");
             }
 
             // redirect BACK to movie list
             resp.sendRedirect("movies");
         } else if ("remove".equals(action)) {
-            int movieId = Integer.parseInt(req.getParameter("movieId"));
-            cart.removeItem(movieId);
+            String itemKey = req.getParameter("itemKey");
+            if (itemKey != null) {
+                cart.removeItem(itemKey);
+            }
             resp.sendRedirect("cart");
         } else if ("update".equals(action)) {
-            int movieId = Integer.parseInt(req.getParameter("movieId"));
+            String itemKey = req.getParameter("itemKey");
             int quantity = Integer.parseInt(req.getParameter("quantity"));
-            cart.updateQuantity(movieId, quantity);
+            if (itemKey != null) {
+                cart.updateQuantity(itemKey, quantity);
+            }
             resp.sendRedirect("cart");
         }
     }
